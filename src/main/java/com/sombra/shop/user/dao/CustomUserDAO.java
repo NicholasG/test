@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 @Component
 public class CustomUserDAO implements DAO<CustomUser> {
@@ -28,8 +29,13 @@ public class CustomUserDAO implements DAO<CustomUser> {
 
     private static final String FIND_ONE_BY_ID_QUERY = "SELECT * FROM users WHERE id = ?";
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public CustomUserDAO( JdbcTemplate jdbcTemplate ) {
+        Assert.notNull( jdbcTemplate, "jdbcTemplate must not be null" );
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public int insert( CustomUser o ) {

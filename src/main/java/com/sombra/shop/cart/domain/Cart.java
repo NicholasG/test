@@ -4,12 +4,13 @@ import com.sombra.shop.good.domain.Good;
 import com.sombra.shop.user.domain.CustomUser;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table( name = "carts" )
-public class Cart {
+public class Cart implements Serializable {
 
     @Id
     @GeneratedValue

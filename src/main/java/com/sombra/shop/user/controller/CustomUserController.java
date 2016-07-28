@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +22,13 @@ public class CustomUserController {
 
     private static final Logger LOG = LoggerFactory.getLogger( CustomUserController.class );
 
+    private final CustomUserDAO userDAO;
+
     @Autowired
-    private CustomUserDAO userDAO;
+    public CustomUserController( CustomUserDAO userDAO ) {
+        Assert.notNull( userDAO, "userDAO must not be null" );
+        this.userDAO = userDAO;
+    }
 
     @RequestMapping(
             value = "/current",

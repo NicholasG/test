@@ -3,10 +3,11 @@ package com.sombra.shop.picture.domain;
 import com.sombra.shop.good.domain.Good;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table( name = "pictures" )
-public class Picture {
+public class Picture implements Serializable {
 
     @Id
     @GeneratedValue

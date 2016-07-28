@@ -2,15 +2,17 @@ package com.sombra.shop.good.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sombra.shop.cart.domain.Cart;
+import com.sombra.shop.category.domain.Category;
 import com.sombra.shop.picture.domain.Picture;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table( name = "goods" )
-public class Good {
+public class Good implements Serializable {
 
     @Id
     @GeneratedValue
@@ -34,6 +36,10 @@ public class Good {
 
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "good" )
     private Set<Picture> pictures = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn( name = "category_id", nullable = false )
+    private Category category;
 
     public Good() {
     }
@@ -92,6 +98,14 @@ public class Good {
 
     public void setPictures( Set<Picture> pictures ) {
         this.pictures = pictures;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory( Category category ) {
+        this.category = category;
     }
 
 }

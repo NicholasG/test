@@ -14,17 +14,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.Collections;
 
 @Service
 public class CustomUserServiceImpl implements CustomUserService {
 
-    @Autowired
-    private CustomUserDAO userDAO;
+    private final CustomUserDAO userDAO;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    public CustomUserServiceImpl( PasswordEncoder passwordEncoder, CustomUserDAO userDAO ) {
+        Assert.notNull( passwordEncoder, "passwordEncoder must not be null" );
+        Assert.notNull( userDAO, "userDAO must not be null" );
+        this.passwordEncoder = passwordEncoder;
+        this.userDAO = userDAO;
+    }
 
     @Override
     public UserDetails loadUserByUsername( String username ) throws UsernameNotFoundException {
