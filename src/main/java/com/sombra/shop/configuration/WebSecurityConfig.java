@@ -48,12 +48,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure( HttpSecurity http ) throws Exception {
         http
+                .httpBasic()
+                .and()
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers( "/" ).permitAll()
-                .antMatchers( "/css/**" ).permitAll()
-                .antMatchers( "/js/**" ).permitAll()
-                .antMatchers( "/scss/**" ).permitAll()
+                .antMatchers( "/css/**", "/js/**", "/scss/**" ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

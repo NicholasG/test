@@ -2,13 +2,17 @@ package com.sombra.shop.good.dao;
 
 import com.sombra.shop.dao.DAO;
 import com.sombra.shop.good.domain.Good;
+import com.sombra.shop.good.mapper.GoodRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class GoodDAO implements DAO<Good> {
@@ -27,11 +31,18 @@ public class GoodDAO implements DAO<Good> {
 
     private static final String FIND_ONE_BY_ID_QUERY = "SELECT * FROM goods WHERE id = ?";
 
+    private static final String SELECT_ALL_BY_CART_ID_QUERY = "SELECT goods_id FROM goods_carts " +
+            "WHERE carts_user_id = ?";
+
     private final JdbcTemplate jdbcTemplate;
 
+    private final GoodRowMapper rowMapper;
+
     @Autowired
-    public GoodDAO( JdbcTemplate jdbcTemplate ) {
+    public GoodDAO( JdbcTemplate jdbcTemplate, GoodRowMapper rowMapper ) {
         Assert.notNull( jdbcTemplate, "jdbcTemplate must not be null" );
+        Assert.notNull( rowMapper, "rowMapper must not be null" );
+        this.rowMapper = rowMapper;
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -67,11 +78,23 @@ public class GoodDAO implements DAO<Good> {
 
     @Override
     public Good findOneById( Long id ) {
-        LOG.info( "Finding a good by id='{}'" );
+        LOG.info( "Finding a good by id='{}'", id );
         return jdbcTemplate.queryForObject( FIND_ONE_BY_ID_QUERY,
                 new Object[]{ id },
-                new BeanPropertyRowMapper<>( Good.class )
+                rowMapper
         );
+    }
+
+    public List<Good> findAllByCartId( Long cartId ) {
+        LOG.info( "Finding all of goods by cart id='{}'", cartId );
+        List<Good> goods = new ArrayList<>();
+        List<Map<String, Object>> rows = jdbcTemplate
+                .queryForList( SELECT_ALL_BY_CART_ID_QUERY, cartId );
+        for ( Map<String, Object> row : rows ) {
+            Good good = findOneById( ( Long ) row.get( "goods_id" ) );
+            goods.add( good );
+        }
+        return goods;
     }
 
 }

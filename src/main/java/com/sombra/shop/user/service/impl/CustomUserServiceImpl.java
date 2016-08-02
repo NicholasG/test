@@ -44,6 +44,11 @@ public class CustomUserServiceImpl implements CustomUserService {
     }
 
     @Override
+    public CustomUser getOne( Long id ) {
+        return userDAO.findOneById( id );
+    }
+
+    @Override
     public CustomUser save( CustomUser user ) {
         user.setPassword( passwordEncoder.encode( user.getPassword() ) );
         int id = userDAO.insert( user );

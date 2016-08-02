@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface CustomUserService extends UserDetailsService {
 
+    CustomUser getOne( Long id );
+
     CustomUser save( CustomUser user );
 
     void singIn( CustomUser user );

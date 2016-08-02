@@ -1,5 +1,6 @@
 package com.sombra.shop.category.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sombra.shop.good.domain.Good;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Category implements Serializable {
     @Column( name = "name" )
     private String name;
 
+    @JsonIgnore
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "category" )
     private Set<Good> goods = new HashSet<>();
 

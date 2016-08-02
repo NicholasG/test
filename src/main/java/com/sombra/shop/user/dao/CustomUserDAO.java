@@ -23,11 +23,11 @@ public class CustomUserDAO implements DAO<CustomUser> {
             "SET username = ?, password = ?, first_name = ?, last_name = ?, active = ?, role = ? " +
             "WHERE id = ?";
 
-    private static final String FIND_ONE_BY_USERNAME_QUERY = "SELECT * FROM users WHERE LOWER(username) = LOWER(?)";
-
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
 
     private static final String FIND_ONE_BY_ID_QUERY = "SELECT * FROM users WHERE id = ?";
+
+    private static final String FIND_ONE_BY_USERNAME_QUERY = "SELECT * FROM users WHERE LOWER(username) = LOWER(?)";
 
     private final JdbcTemplate jdbcTemplate;
 

@@ -1,0 +1,37 @@
+{
+  "name": "shop",
+  "version": "1.0.0",
+  "homepage": "https://github.com/NicholasG/test",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "angular": "~1.4.x",
+    "angular-mocks": "~1.4.x",
+    "angular-bootstrap": "~1.1.x",
+    "angular-cookies": "~1.4.x",
+    "angular-route": "~1.4.x",
+    "angular-ui-router": "0.2.x",
+    "angular-resource": "1.4.x",
+    "angular-animate": "~1.4.x",
+    "angular-translate": "2.9.x",
+    "angular-translate-loader-static-files": "2.9.x",
+    "ng-dialog": "0.6.1",
+    "bootstrap": "3.3.x",
+    "Chart.js": "1.0.x",
+    "angular-chart.js": "0.8.x",
+    "angular-summernote": "*",
+    "jscs": "~2.0.0",
+    "ng-flow": "2.7.1",
+    "angular-base64": "",
+    "angular-base64-upload": "",
+    "ng-scroller": "",
+    "cr-acl": "",
+    "angular-http-auth": "1.2.2"
+  },
+  "resolutions": {
+    "angular": "~1.4.x"
+  },
+  "devDependencies": {
+    "cr-acl": "^0.5.0"
+  }
+}

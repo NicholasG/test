@@ -8,22 +8,28 @@ $('.close').on('click', function () {
 
 $(document).ready(function () {
     $('#loginButton').click(function (e) {
+
+        var username = $('#username').val();
+        var password = $('#password').val();
+        // var url = '/login?username=' + username + '&password=' + password + '&submit=Login';
+        const url = '/login';
         $.ajax({
             type: 'POST',
-            url: '/login',
+            url: url,
             dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded',
             data: {
-                username: $('#username').val(),
-                password: $('#password').val()
+                username: username,
+                password: password
             },
-            success: function (data, textStatus, jqXHR) {
+            success: function (data, textStatus) {
                 alert(textStatus);
             },
-            error: function (jqXHR, textStatus, errorThrown) {
+            error: function (textStatus, errorThrown) {
                 console.log("Something really bad happened " + textStatus);
                 alert(errorThrown);
             },
-            complete: function (jqXHR, textStatus) {
+            complete: function (textStatus) {
                 alert(textStatus);
             }
         });

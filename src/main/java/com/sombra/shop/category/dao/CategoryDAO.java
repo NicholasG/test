@@ -22,7 +22,8 @@ public class CategoryDAO implements DAO<Category> {
 
     private static final String DELETE_QUERY = "DELETE FROM categories WHERE id = ?";
 
-    private static final String FIND_ONE_BY_ID_QUERY = "";
+    private static final String FIND_ONE_BY_ID_QUERY = "SELECT * FROM categories " +
+            "WHERE id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -58,7 +59,7 @@ public class CategoryDAO implements DAO<Category> {
         LOG.info( "Finding a category by id='{}'", id );
         return jdbcTemplate.queryForObject( FIND_ONE_BY_ID_QUERY,
                 new Object[]{ id },
-                new BeanPropertyRowMapper<Category>()
+                new BeanPropertyRowMapper<>( Category.class )
         );
     }
 
