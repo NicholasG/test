@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class CustomUserServiceImpl implements CustomUserService {
@@ -35,12 +36,22 @@ public class CustomUserServiceImpl implements CustomUserService {
 
     @Override
     public UserDetails loadUserByUsername( String username ) throws UsernameNotFoundException {
-        CustomUser user = userDAO.findOneByUsername( username );
+        CustomUser user = getOneByUsername( username );
         if ( user == null ) {
             throw new UsernameNotFoundException( String.format( "User '%s' not found", username ) );
         } else {
             return createUser( user );
         }
+    }
+
+    @Override
+    public CustomUser getOneByUsername( String username ) {
+        return userDAO.findOneByUsername( username );
+    }
+
+    @Override
+    public List<CustomUser> getAll() {
+        return userDAO.findAll();
     }
 
     @Override
@@ -61,6 +72,30 @@ public class CustomUserServiceImpl implements CustomUserService {
     public void singIn( CustomUser user ) {
         SecurityContextHolder.getContext()
                 .setAuthentication( authenticate( user ) );
+    }
+
+    @Override
+    public void changeActiveStatus( Long id ) {
+        CustomUser user = getOne( id );
+        user.setActive( !user.isActive() );
+        edit( user );
+    }
+
+    @Override
+    public CustomUser edit( CustomUser user ) {
+        userDAO.update( user );
+        return user;
+    }
+
+    @Override
+    public void changePassword( String username, String oldPass, String newPass ) {
+        CustomUser user = getOneByUsername( username );
+        if ( passwordEncoder.matches( oldPass, user.getPassword() ) ) {
+            user.setPassword( passwordEncoder.encode( newPass ) );
+            userDAO.changePassword( user );
+        } else {
+            throw new SecurityException( "Wrong old password" );
+        }
     }
 
     private Authentication authenticate( CustomUser user ) {

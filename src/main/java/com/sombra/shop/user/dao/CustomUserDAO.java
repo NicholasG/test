@@ -25,7 +25,7 @@ public class CustomUserDAO implements DAO<CustomUser> {
             "VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE_QUERY = "UPDATE users " +
-            "SET username = ?, password = ?, first_name = ?, last_name = ?, active = ?, role = ? " +
+            "SET username = ?, first_name = ?, last_name = ?, active = ?, role = ? " +
             "WHERE id = ?";
 
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
@@ -34,6 +34,8 @@ public class CustomUserDAO implements DAO<CustomUser> {
 
     private static final String SELECT_ONE_BY_USERNAME_QUERY = "SELECT * FROM users " +
             "WHERE LOWER(username) = LOWER(?)";
+
+    private static final String UPDATE_PASSWORD_QUERY = "UPDATE users SET password = ? WHERE id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -72,7 +74,6 @@ public class CustomUserDAO implements DAO<CustomUser> {
         LOG.info( "Updating an user with id='{}'", o.getId() );
         return jdbcTemplate.update( UPDATE_QUERY,
                 o.getUsername(),
-                o.getPassword(),
                 o.getFirstName(),
                 o.getLastName(),
                 o.isActive(),
@@ -100,6 +101,14 @@ public class CustomUserDAO implements DAO<CustomUser> {
         return jdbcTemplate.queryForObject( SELECT_ONE_BY_USERNAME_QUERY,
                 new Object[]{ username },
                 rowMapper );
+    }
+
+    public void changePassword( CustomUser user ) {
+        jdbcTemplate.update( UPDATE_PASSWORD_QUERY,
+                user.getPassword(),
+                user.getId()
+        );
+        LOG.info( "Password for user='{}' has been changed", user.getUsername() );
     }
 
 }
