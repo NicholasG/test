@@ -1,14 +1,17 @@
 package com.sombra.shop.category.dao;
 
 import com.sombra.shop.category.domain.Category;
+import com.sombra.shop.category.mapper.CategoryRowMapper;
 import com.sombra.shop.dao.DAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class CategoryDAO implements DAO<Category> {
@@ -27,10 +30,21 @@ public class CategoryDAO implements DAO<Category> {
 
     private final JdbcTemplate jdbcTemplate;
 
+    private final CategoryRowMapper rowMapper;
+
     @Autowired
-    public CategoryDAO( JdbcTemplate jdbcTemplate ) {
+    public CategoryDAO( JdbcTemplate jdbcTemplate, CategoryRowMapper rowMapper ) {
         Assert.notNull( jdbcTemplate, "jdbcTemplate must not be null" );
+        Assert.notNull( rowMapper, "rowMapper must not be null" );
+        this.rowMapper = rowMapper;
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public List<Category> findAll() {
+        LOG.info( "Finding all of categories" );
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList( "SELECT * FROM categories" );
+        return rowMapper.mapRows( rows );
     }
 
     @Override
@@ -59,7 +73,7 @@ public class CategoryDAO implements DAO<Category> {
         LOG.info( "Finding a category by id='{}'", id );
         return jdbcTemplate.queryForObject( FIND_ONE_BY_ID_QUERY,
                 new Object[]{ id },
-                new BeanPropertyRowMapper<>( Category.class )
+                rowMapper
         );
     }
 

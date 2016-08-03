@@ -19,6 +19,8 @@ public class GoodDAO implements DAO<Good> {
 
     private static final Logger LOG = LoggerFactory.getLogger( GoodDAO.class );
 
+    private static final String SELECT_All_QUERY = "SELECT * FROM goods";
+
     private static final String INSERT_QUERY = "INSERT INTO goods " +
             "(available, description, name, price, category_id) " +
             "VALUES (?, ?, ?, ?, ?)";
@@ -29,7 +31,7 @@ public class GoodDAO implements DAO<Good> {
 
     private static final String DELETE_QUERY = "DELETE FROM goods WHERE id = ?";
 
-    private static final String FIND_ONE_BY_ID_QUERY = "SELECT * FROM goods WHERE id = ?";
+    private static final String SELECT_ONE_BY_ID_QUERY = "SELECT * FROM goods WHERE id = ?";
 
     private static final String SELECT_ALL_BY_CART_ID_QUERY = "SELECT goods_id FROM goods_carts " +
             "WHERE carts_user_id = ?";
@@ -44,6 +46,13 @@ public class GoodDAO implements DAO<Good> {
         Assert.notNull( rowMapper, "rowMapper must not be null" );
         this.rowMapper = rowMapper;
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public List<Good> findAll() {
+        LOG.info( "Finding all of goods" );
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList( SELECT_All_QUERY );
+        return rowMapper.mapRows( rows );
     }
 
     @Override
@@ -79,7 +88,7 @@ public class GoodDAO implements DAO<Good> {
     @Override
     public Good findOneById( Long id ) {
         LOG.info( "Finding a good by id='{}'", id );
-        return jdbcTemplate.queryForObject( FIND_ONE_BY_ID_QUERY,
+        return jdbcTemplate.queryForObject( SELECT_ONE_BY_ID_QUERY,
                 new Object[]{ id },
                 rowMapper
         );

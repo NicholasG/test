@@ -2,18 +2,23 @@ package com.sombra.shop.user.dao;
 
 import com.sombra.shop.dao.DAO;
 import com.sombra.shop.user.domain.CustomUser;
+import com.sombra.shop.user.mapper.CustomUserRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class CustomUserDAO implements DAO<CustomUser> {
 
     private static final Logger LOG = LoggerFactory.getLogger( CustomUserDAO.class );
+
+    private static final String SELECT_ALL_QUERY = "";
 
     private static final String INSERT_QUERY = "INSERT INTO users " +
             "(username, password, first_name, last_name, active, role) " +
@@ -25,16 +30,28 @@ public class CustomUserDAO implements DAO<CustomUser> {
 
     private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
 
-    private static final String FIND_ONE_BY_ID_QUERY = "SELECT * FROM users WHERE id = ?";
+    private static final String SELECT_ONE_BY_ID_QUERY = "SELECT * FROM users WHERE id = ?";
 
-    private static final String FIND_ONE_BY_USERNAME_QUERY = "SELECT * FROM users WHERE LOWER(username) = LOWER(?)";
+    private static final String SELECT_ONE_BY_USERNAME_QUERY = "SELECT * FROM users " +
+            "WHERE LOWER(username) = LOWER(?)";
 
     private final JdbcTemplate jdbcTemplate;
 
+    private final CustomUserRowMapper rowMapper;
+
     @Autowired
-    public CustomUserDAO( JdbcTemplate jdbcTemplate ) {
+    public CustomUserDAO( JdbcTemplate jdbcTemplate, CustomUserRowMapper rowMapper ) {
         Assert.notNull( jdbcTemplate, "jdbcTemplate must not be null" );
+        Assert.notNull( rowMapper, "rowMapper must not be null" );
+        this.rowMapper = rowMapper;
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public List<CustomUser> findAll() {
+        LOG.info( "Finding all of users" );
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList( SELECT_ALL_QUERY );
+        return rowMapper.mapRows( rows );
     }
 
     @Override
@@ -73,16 +90,16 @@ public class CustomUserDAO implements DAO<CustomUser> {
     @Override
     public CustomUser findOneById( Long id ) {
         LOG.info( "Finding an user by id='{}'", id );
-        return jdbcTemplate.queryForObject( FIND_ONE_BY_ID_QUERY,
+        return jdbcTemplate.queryForObject( SELECT_ONE_BY_ID_QUERY,
                 new Object[]{ id },
-                new BeanPropertyRowMapper<>( CustomUser.class ) );
+                rowMapper );
     }
 
     public CustomUser findOneByUsername( String username ) {
         LOG.info( "Finding an user by username='{}'", username );
-        return jdbcTemplate.queryForObject( FIND_ONE_BY_USERNAME_QUERY,
+        return jdbcTemplate.queryForObject( SELECT_ONE_BY_USERNAME_QUERY,
                 new Object[]{ username },
-                new BeanPropertyRowMapper<>( CustomUser.class ) );
+                rowMapper );
     }
 
 }

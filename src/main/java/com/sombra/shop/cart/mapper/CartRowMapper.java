@@ -18,6 +18,9 @@ import java.util.List;
 @Component
 public class CartRowMapper implements RowMapper<Cart> {
 
+    private static final String USER_ID = "user_id";
+    private static final String AMOUNT = "amount";
+
     private final CustomUserService userService;
 
     private final GoodService goodService;
@@ -37,8 +40,8 @@ public class CartRowMapper implements RowMapper<Cart> {
 
     private Cart getCart( ResultSet resultSet ) throws SQLException {
         Cart cart = new Cart();
-        cart.setId( resultSet.getLong( "user_id" ) );
-        cart.setAmount( resultSet.getInt( "amount" ) );
+        cart.setId( resultSet.getLong( USER_ID ) );
+        cart.setAmount( resultSet.getInt( AMOUNT ) );
 
         CustomUser user = userService.getOne( cart.getId() );
         cart.setUser( user );

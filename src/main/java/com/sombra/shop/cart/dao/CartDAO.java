@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 @Component
 public class CartDAO implements DAO<Cart> {
 
@@ -18,8 +20,10 @@ public class CartDAO implements DAO<Cart> {
     private static final String INSERT_QUERY = "INSERT INTO carts " +
             "(amount, user_id) VALUES (?, ?)";
 
+    @Deprecated
     private static final String UPDATE_QUERY = "";
 
+    @Deprecated
     private static final String DELETE_QUERY = "";
 
     private static final String FIND_ONE_BY_ID_QUERY = "SELECT * FROM carts WHERE user_id = ?";
@@ -34,6 +38,15 @@ public class CartDAO implements DAO<Cart> {
         Assert.notNull( rowMapper, "rowMapper must not be null" );
         this.jdbcTemplate = jdbcTemplate;
         this.rowMapper = rowMapper;
+    }
+
+    /**
+     * @return null
+     * @deprecated
+     */
+    @Override
+    public List<Cart> findAll() {
+        return null;
     }
 
     @Override

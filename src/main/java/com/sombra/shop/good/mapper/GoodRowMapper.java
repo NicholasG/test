@@ -12,11 +12,17 @@ import org.springframework.util.Assert;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class GoodRowMapper implements RowMapper<Good> {
+
+    private static final String ID = "id";
+    private static final String NAME = "name";
+    private static final String PRICE = "price";
+    private static final String AVAILABLE = "available";
+    private static final String DESCRIPTION = "description";
+    private static final String CATEGORY_ID = "category_id";
 
     private final CategoryService categoryService;
 
@@ -33,19 +39,48 @@ public class GoodRowMapper implements RowMapper<Good> {
     @Override
     public Good mapRow( ResultSet resultSet, int i ) throws SQLException {
         Good good = new Good();
-        good.setId( resultSet.getLong( "id" ) );
-        good.setName( resultSet.getString( "name" ) );
-        good.setPrice( resultSet.getDouble( "price" ) );
-        good.setAvailable( resultSet.getBoolean( "available" ) );
-        good.setDescription( resultSet.getString( "description" ) );
+        good.setId( resultSet.getLong( ID ) );
+        good.setName( resultSet.getString( NAME ) );
+        good.setPrice( resultSet.getDouble( PRICE ) );
+        good.setAvailable( resultSet.getBoolean( AVAILABLE ) );
+        good.setDescription( resultSet.getString( DESCRIPTION ) );
 
-        Category category = categoryService.getOne( resultSet.getLong( "category_id" ) );
+        long cID = resultSet.getLong( CATEGORY_ID );
+        Category category = getCategory( cID );
         good.setCategory( category );
 
-        List<Picture> pictures = pictureService.getAllByGoodId( good.getId() );
-        good.setPictures( new HashSet<>( pictures ) );
+        good.setPictures( getPictures( good.getId() ) );
 
         return good;
+    }
+
+    public List<Good> mapRows( List<Map<String, Object>> rows ) {
+        List<Good> goods = new ArrayList<>();
+        for ( Map<String, Object> row : rows ) {
+            Good good = new Good();
+            good.setId( ( Long ) row.get( ID ) );
+            good.setName( ( String ) row.get( NAME ) );
+            good.setPrice( ( Double ) row.get( PRICE ) );
+            good.setAvailable( ( Boolean ) row.get( AVAILABLE ) );
+            good.setDescription( ( String ) row.get( DESCRIPTION ) );
+
+            Long cID = ( Long ) row.get( CATEGORY_ID );
+            good.setCategory( getCategory( cID ) );
+
+            good.setPictures( getPictures( good.getId() ) );
+
+            goods.add( good );
+        }
+        return goods;
+    }
+
+    private Category getCategory( long id ) {
+        return categoryService.getOne( id );
+    }
+
+    private Set<Picture> getPictures( long id ) {
+        List<Picture> pictures = pictureService.getAllByGoodId( id );
+        return new HashSet<>( pictures );
     }
 
 }
