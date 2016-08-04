@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface GoodService {
 
+    List<Good> getAll();
+
     int add( Good good );
 
     int update( Good good );

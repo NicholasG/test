@@ -1,6 +1,5 @@
 package com.sombra.shop.user.controller;
 
-import com.sombra.shop.user.dao.CustomUserDAO;
 import com.sombra.shop.user.domain.CustomUser;
 import com.sombra.shop.user.service.CustomUserService;
 import org.slf4j.Logger;
@@ -25,15 +24,11 @@ public class CustomUserController {
 
     private static final Logger LOG = LoggerFactory.getLogger( CustomUserController.class );
 
-    private final CustomUserDAO userDAO;
-
     private final CustomUserService userService;
 
     @Autowired
-    public CustomUserController( CustomUserDAO userDAO, CustomUserService userService ) {
-        Assert.notNull( userDAO, "userDAO must not be null" );
+    public CustomUserController( CustomUserService userService ) {
         Assert.notNull( userService, "userService must not be null" );
-        this.userDAO = userDAO;
         this.userService = userService;
     }
 
@@ -94,7 +89,7 @@ public class CustomUserController {
     @Secured( value = { ROLE_ADMIN, ROLE_USER } )
     public ResponseEntity<CustomUser> getCurrentUser( Principal principal ) {
         LOG.info( "/users/current" );
-        CustomUser user = userDAO.findOneByUsername( principal.getName() );
+        CustomUser user = userService.getOneByUsername( principal.getName() );
         return new ResponseEntity<>( user, HttpStatus.OK );
     }
 

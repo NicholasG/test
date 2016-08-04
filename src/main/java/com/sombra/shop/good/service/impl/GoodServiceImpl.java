@@ -21,6 +21,11 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
+    public List<Good> getAll() {
+        return dao.findAll();
+    }
+
+    @Override
     public int add( Good good ) {
         return dao.insert( good );
     }
