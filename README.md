@@ -30,7 +30,12 @@ PUT                 -> updates an existing category; consumes entity like [Categ
 DELETE              -> deletes a category; consumes {id}
 /{id}               -> returns a category with {id}
 ```
-
+###_/cart_:
+```
+GET                 -> returns a cart of currently logged in user
+POST                -> adds a good to a cart; cunsumes {goodId}
+DELETE              -> deletes a good from a cart; cunsumes {goodId}
+```
 * [CustomUser]
 * [Good]
 * [Picture]

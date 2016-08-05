@@ -28,6 +28,12 @@ public class CartDAO implements DAO<Cart> {
 
     private static final String FIND_ONE_BY_ID_QUERY = "SELECT * FROM carts WHERE user_id = ?";
 
+    private static final String ADD_GOOD_TO_CART_QUERY = "INSERT INTO goods_carts " +
+            "(goods_id, carts_user_id) VALUES (?, ?)";
+
+    private static final String DELETE_GOOD_FROM_CART_QUERY = "DELETE FROM goods_carts " +
+            "WHERE goods_id = ? AND carts_user_id = ?";
+
     private final JdbcTemplate jdbcTemplate;
 
     private final CartRowMapper rowMapper;
@@ -58,12 +64,21 @@ public class CartDAO implements DAO<Cart> {
         );
     }
 
+    /**
+     * @param o the cart
+     * @return 0
+     * @deprecated
+     */
     @Override
     @Deprecated
     public int update( Cart o ) {
         return 0;
     }
 
+    /**
+     * @param id of the cart
+     * @deprecated
+     */
     @Override
     @Deprecated
     public void delete( Long id ) {
@@ -76,6 +91,20 @@ public class CartDAO implements DAO<Cart> {
         return jdbcTemplate.queryForObject( FIND_ONE_BY_ID_QUERY,
                 new Object[]{ id },
                 rowMapper
+        );
+    }
+
+    public int addGoodToCart( Long goodId, Long cartId ) {
+        LOG.info( "Adding a good with id='{}' to a cart id='{}'", goodId, cartId );
+        return jdbcTemplate.update( ADD_GOOD_TO_CART_QUERY,
+                goodId, cartId
+        );
+    }
+
+    public void deleteGoodFromCart( Long goodId, Long cartId ) {
+        LOG.info( "Deleting a good with id='{}' from a cart id='{}'", goodId, cartId );
+        jdbcTemplate.update( DELETE_GOOD_FROM_CART_QUERY,
+                goodId, cartId
         );
     }
 

@@ -12,57 +12,57 @@ import java.util.List;
 @Service
 public class GoodServiceImpl implements GoodService {
 
-    private final GoodDAO dao;
+    private final GoodDAO goodDAO;
 
     @Autowired
-    public GoodServiceImpl( GoodDAO dao ) {
-        Assert.notNull( dao, "dao must not be null" );
-        this.dao = dao;
+    public GoodServiceImpl( GoodDAO goodDAO ) {
+        Assert.notNull( goodDAO, "goodDAO must not be null" );
+        this.goodDAO = goodDAO;
     }
 
     @Override
     public List<Good> getAll() {
-        return dao.findAll();
+        return goodDAO.findAll();
     }
 
     @Override
     public int add( Good good ) {
-        return dao.insert( good );
+        return goodDAO.insert( good );
     }
 
     @Override
     public int update( Good good ) {
-        return dao.update( good );
+        return goodDAO.update( good );
     }
 
     @Override
     public void delete( Long id ) {
-        dao.delete( id );
+        goodDAO.delete( id );
     }
 
     @Override
     public Good getOne( Long id ) {
-        return dao.findOneById( id );
+        return goodDAO.findOneById( id );
     }
 
     @Override
     public List<Good> getAllByCartId( Long cartId ) {
-        return dao.findAllByCartId( cartId );
+        return goodDAO.findAllByCartId( cartId );
     }
 
     @Override
     public List<Good> getAllByCategoryId( Long categoryId ) {
-        return dao.findAllByCategoryId( categoryId );
+        return goodDAO.findAllByCategoryId( categoryId );
     }
 
     @Override
     public List<Good> getAllByName( String name ) {
-        return dao.findAllByName( name );
+        return goodDAO.findAllByName( name );
     }
 
     @Override
     public List<Good> getAllByNameAndCategoryId( String name, Long categoryId ) {
-        return dao.findAllByNameAndCategoryId( name, categoryId );
+        return goodDAO.findAllByNameAndCategoryId( name, categoryId );
     }
 
 }

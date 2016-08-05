@@ -16,12 +16,12 @@ import java.util.List;
 @Service
 public class PictureServiceImpl implements PictureService {
 
-    private final PictureDAO dao;
+    private final PictureDAO pictureDAO;
 
     @Autowired
-    public PictureServiceImpl( PictureDAO dao ) {
-        Assert.notNull( dao, "dao must not be null" );
-        this.dao = dao;
+    public PictureServiceImpl( PictureDAO pictureDAO ) {
+        Assert.notNull( pictureDAO, "pictureDAO must not be null" );
+        this.pictureDAO = pictureDAO;
     }
 
     @Override
@@ -30,22 +30,22 @@ public class PictureServiceImpl implements PictureService {
         String s = Base64.getEncoder().encodeToString( picture.getBytes() );
         p.setImageAsString( s );
         p.setGood( good );
-        return dao.insert( p );
+        return pictureDAO.insert( p );
     }
 
     @Override
     public void delete( Long id ) {
-        dao.delete( id );
+        pictureDAO.delete( id );
     }
 
     @Override
     public Picture getOne( Long id ) {
-        return dao.findOneById( id );
+        return pictureDAO.findOneById( id );
     }
 
     @Override
     public List<Picture> getAllByGoodId( Long goodId ) {
-        return dao.findAllByGoodId( goodId );
+        return pictureDAO.findAllByGoodId( goodId );
     }
 
 }

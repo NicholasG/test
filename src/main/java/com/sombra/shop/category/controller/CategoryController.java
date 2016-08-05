@@ -2,8 +2,7 @@ package com.sombra.shop.category.controller;
 
 import com.sombra.shop.category.domain.Category;
 import com.sombra.shop.category.service.CategoryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -18,10 +17,9 @@ import static com.sombra.shop.role.Role.ROLE_ADMIN;
 @RequestMapping( value = "/categories" )
 public class CategoryController {
 
-    private static final Logger LOG = LoggerFactory.getLogger( CategoryController.class );
-
     private final CategoryService categoryService;
 
+    @Autowired
     public CategoryController( CategoryService categoryService ) {
         Assert.notNull( categoryService, "categoryService must not be null" );
         this.categoryService = categoryService;
