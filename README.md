@@ -22,10 +22,21 @@ DELETE              -> deletes a good; consumes {id}
 /pictures           -> POST; adds a picture for good; consumes {id} of good and {file}
 /pictures           -> DELETE; deletes a picture of good; consumes {id} of picture
 ```
+###_/categories_:
+```
+GET                 -> returns all of categories
+POST                -> adds a new category; consumes entity like [Category]
+PUT                 -> updates an existing category; consumes entity like [Category]
+DELETE              -> deletes a category; consumes {id}
+/{id}               -> returns a category with {id}
+```
+
 * [CustomUser]
 * [Good]
 * [Picture]
+* [Category]
 
 [Good]: https://github.com/NicholasG/test/blob/master/src/main/java/com/sombra/shop/good/domain/Good.java
 [Picture]: https://github.com/NicholasG/test/blob/master/src/main/java/com/sombra/shop/picture/domain/Picture.java
 [CustomUser]: https://github.com/NicholasG/test/blob/master/src/main/java/com/sombra/shop/user/domain/CustomUser.java
+[Category]: https://github.com/NicholasG/test/blob/master/src/main/java/com/sombra/shop/category/domain/Category.java

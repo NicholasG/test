@@ -2,7 +2,11 @@ package com.sombra.shop.category.service;
 
 import com.sombra.shop.category.domain.Category;
 
+import java.util.List;
+
 public interface CategoryService {
+
+    List<Category> getAll();
 
     int add( Category category );
 

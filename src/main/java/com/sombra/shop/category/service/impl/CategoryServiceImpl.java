@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -16,6 +18,11 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryServiceImpl( CategoryDAO dao ) {
         Assert.notNull( dao, "dao must not be null" );
         this.dao = dao;
+    }
+
+    @Override
+    public List<Category> getAll() {
+        return dao.findAll();
     }
 
     @Override
