@@ -44,7 +44,7 @@ public class CustomUserController {
     )
     public ResponseEntity<Void> singUp( @RequestBody CustomUser user ) {
         userService.save( user );
-        return new ResponseEntity<>( HttpStatus.OK );
+        return new ResponseEntity<>( HttpStatus.CREATED );
     }
 
     @RequestMapping( method = RequestMethod.PUT )

@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +34,16 @@ public class GoodDAO implements DAO<Good> {
 
     private static final String SELECT_ALL_BY_CART_ID_QUERY = "SELECT goods_id FROM goods_carts " +
             "WHERE carts_user_id = ?";
+
+    private static final String SELECT_ALL_BY_CATEGORY_ID_QUERY = "SELECT * FROM goods " +
+            "WHERE category_id = ?";
+
+    private static final String SELECT_ALL_BY_NAME_QUERY = "SELECT * FROM goods " +
+            "WHERE LOWER(name) LIKE LOWER(?)";
+
+    private static final String SELECT_ALL_BY_NAME_AND_CATEGORY_ID_QUERY = "SELECT * FROM goods " +
+            "WHERE LOWER(name) LIKE LOWER(?) " +
+            "AND category_id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -96,14 +105,31 @@ public class GoodDAO implements DAO<Good> {
 
     public List<Good> findAllByCartId( Long cartId ) {
         LOG.info( "Finding all of goods by cart id='{}'", cartId );
-        List<Good> goods = new ArrayList<>();
         List<Map<String, Object>> rows = jdbcTemplate
                 .queryForList( SELECT_ALL_BY_CART_ID_QUERY, cartId );
-        for ( Map<String, Object> row : rows ) {
-            Good good = findOneById( ( Long ) row.get( "goods_id" ) );
-            goods.add( good );
-        }
-        return goods;
+        return rowMapper.mapRows( rows );
+    }
+
+    public List<Good> findAllByCategoryId( Long categoryId ) {
+        LOG.info( "Finding all of goods by category id='{}'", categoryId );
+        List<Map<String, Object>> rows = jdbcTemplate
+                .queryForList( SELECT_ALL_BY_CATEGORY_ID_QUERY, categoryId );
+        return rowMapper.mapRows( rows );
+    }
+
+    public List<Good> findAllByName( String name ) {
+        LOG.info( "Finding all of goods by name='{}'", name );
+        List<Map<String, Object>> rows = jdbcTemplate
+                .queryForList( SELECT_ALL_BY_NAME_QUERY, name + '%' );
+        return rowMapper.mapRows( rows );
+    }
+
+    public List<Good> findAllByNameAndCategoryId( String name, Long categoryId ) {
+        LOG.info( "Finding all of goods by name='{}' and categoryId='{}'", name, categoryId );
+        List<Map<String, Object>> rows = jdbcTemplate
+                .queryForList( SELECT_ALL_BY_NAME_AND_CATEGORY_ID_QUERY,
+                        name + '%', categoryId );
+        return rowMapper.mapRows( rows );
     }
 
 }

@@ -18,4 +18,10 @@ public interface GoodService {
 
     List<Good> getAllByCartId( Long cartId );
 
+    List<Good> getAllByCategoryId( Long categoryId );
+
+    List<Good> getAllByName( String name );
+
+    List<Good> getAllByNameAndCategoryId( String name, Long categoryId );
+
 }

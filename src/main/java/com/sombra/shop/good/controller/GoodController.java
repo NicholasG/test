@@ -34,8 +34,17 @@ public class GoodController {
     }
 
     @RequestMapping( method = RequestMethod.GET )
-    public ResponseEntity<List<Good>> getAll() {
-        return new ResponseEntity<>( goodService.getAll(), HttpStatus.OK );
+    public ResponseEntity<List<Good>> getAll( String name, Long categoryId ) {
+        // I had no choice to make it better
+        if ( name != null && categoryId != null ) {
+            return new ResponseEntity<>( goodService.getAllByNameAndCategoryId( name, categoryId ), HttpStatus.OK );
+        } else if ( name == null && categoryId != null ) {
+            return new ResponseEntity<>( goodService.getAllByCategoryId( categoryId ), HttpStatus.OK );
+        } else if ( name != null ) {
+            return new ResponseEntity<>( goodService.getAllByName( name ), HttpStatus.OK );
+        } else {
+            return new ResponseEntity<>( goodService.getAll(), HttpStatus.OK );
+        }
     }
 
     @RequestMapping( method = RequestMethod.POST )

@@ -50,4 +50,19 @@ public class GoodServiceImpl implements GoodService {
         return dao.findAllByCartId( cartId );
     }
 
+    @Override
+    public List<Good> getAllByCategoryId( Long categoryId ) {
+        return dao.findAllByCategoryId( categoryId );
+    }
+
+    @Override
+    public List<Good> getAllByName( String name ) {
+        return dao.findAllByName( name );
+    }
+
+    @Override
+    public List<Good> getAllByNameAndCategoryId( String name, Long categoryId ) {
+        return dao.findAllByNameAndCategoryId( name, categoryId );
+    }
+
 }

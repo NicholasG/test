@@ -13,7 +13,7 @@ DELETE              -> activates or deactivates an user; consumes {id}
 ```
 ###_/goods_:
 ```
-GET                 -> returns all of goods
+GET                 -> returns all of goods; may consume {name} and {categoryId}
 POST                -> adds a new good; consumes entity like [Good]
 PUT                 -> updates an existing good; consumes entity like [Good]
 DELETE              -> deletes a good; consumes {id}
