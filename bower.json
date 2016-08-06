@@ -26,7 +26,8 @@
     "angular-base64-upload": "",
     "ng-scroller": "",
     "cr-acl": "",
-    "angular-http-auth": "1.2.2"
+    "textAngular": "",
+    "components-font-awesome": "^4.6.3"
   },
   "resolutions": {
     "angular": "~1.4.x"

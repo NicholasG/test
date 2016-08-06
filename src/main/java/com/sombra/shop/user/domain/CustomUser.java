@@ -1,6 +1,5 @@
 package com.sombra.shop.user.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.MoreObjects;
 
 import javax.persistence.*;
@@ -23,7 +22,7 @@ public class CustomUser implements Serializable {
     @Column( name = "last_name" )
     private String lastName;
 
-    @JsonIgnore
+    //    @JsonIgnore
     @Column( name = "password" )
     private String password;
 

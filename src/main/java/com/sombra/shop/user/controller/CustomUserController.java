@@ -88,7 +88,6 @@ public class CustomUserController {
     )
     @Secured( value = { ROLE_ADMIN, ROLE_USER } )
     public ResponseEntity<CustomUser> getCurrentUser( Principal principal ) {
-        LOG.info( "/users/current" );
         CustomUser user = userService.getOneByUsername( principal.getName() );
         return new ResponseEntity<>( user, HttpStatus.OK );
     }

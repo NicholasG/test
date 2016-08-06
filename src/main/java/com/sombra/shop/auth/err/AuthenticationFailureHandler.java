@@ -1,4 +1,4 @@
-package com.sombra.shop.auth.error;
+package com.sombra.shop.auth.err;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
