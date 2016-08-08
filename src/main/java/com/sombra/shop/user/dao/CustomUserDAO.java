@@ -18,7 +18,7 @@ public class CustomUserDAO implements DAO<CustomUser> {
 
     private static final Logger LOG = LoggerFactory.getLogger( CustomUserDAO.class );
 
-    private static final String SELECT_ALL_QUERY = "";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM users";
 
     private static final String INSERT_QUERY = "INSERT INTO users " +
             "(username, password, first_name, last_name, active, role) " +

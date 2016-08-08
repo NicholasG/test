@@ -34,6 +34,7 @@ public class Good implements Serializable {
     @ManyToMany( targetEntity = Cart.class )
     private Set<Cart> carts = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "good" )
     private Set<Picture> pictures = new HashSet<>();
 

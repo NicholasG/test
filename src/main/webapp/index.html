@@ -2,38 +2,49 @@
 <html ng-app="app">
 <head>
     <meta charset="utf-8"/>
-    <title>AngularJS User Registration and Login Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sombra shop</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
     <link href="app-content/app.css" rel="stylesheet"/>
     <!-- bower:css -->
     <link rel='stylesheet' href='bower_components/ng-dialog/css/ngDialog.css'/>
     <link rel='stylesheet' href='bower_components/ng-dialog/css/ngDialog-theme-default.css'/>
     <link rel='stylesheet' href='bower_components/angular-chart.js/dist/angular-chart.css'/>
-    <link rel='stylesheet' href='bower_components/summernote/dist/summernote.css'/>
     <link rel='stylesheet' href='bower_components/textAngular/dist/textAngular.css'/>
     <link rel='stylesheet' href='bower_components/components-font-awesome/css/font-awesome.css'/>
     <!-- endbower -->
 </head>
 <body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Sombra Shop</a>
+        </div>
 
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form class="navbar-form navbar-right">
+                <p><a href="#/login" class="btn btn-primary">Logout</a></p>
+            </form>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 <div class="jumbotron">
     <div class="container">
         <div class="col-sm-8 col-sm-offset-2">
             <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }"
                  ng-if="flash" ng-bind="flash.message"></div>
             <div ng-view></div>
-            </div>
+        </div>
     </div>
-    </div>
-<div class="credits text-center">
-    <p>
-        <a href="http://jasonwatmore.com/post/2015/03/10/AngularJS-User-Registration-and-Login-Example.aspx">AngularJS
-            User Registration and Login Example</a>
-    </p>
-    <p>
-        <a href="http://jasonwatmore.com">JasonWatmore.com</a>
-    </p>
-    </div>
+</div>
 
 <!-- bower:js -->
 <script src="bower_components/angular/angular.js"></script>
@@ -49,8 +60,6 @@
 <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 <script src="bower_components/Chart.js/Chart.js"></script>
 <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
-<script src="bower_components/summernote/dist/summernote.js"></script>
-<script src="bower_components/angular-summernote/dist/angular-summernote.js"></script>
 <script src="bower_components/flow.js/dist/flow.js"></script>
 <script src="bower_components/ng-flow/dist/ng-flow.js"></script>
 <script src="bower_components/angular-base64/angular-base64.js"></script>

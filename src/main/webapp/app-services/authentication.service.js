@@ -27,14 +27,17 @@
                 });
         }
 
-        function SetCredentials(username, password) {
-            var authdata = Base64.encode(username + ':' + password);
+        function SetCredentials(user, password) {
+            var authdata = Base64.encode(user.username + ':' + password);
 
             $rootScope.globals = {
-                currentUser: {
-                    username: username,
+                // currentUser: {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                role: user.role,
+                username: user.username,
                     authdata: authdata
-                }
+                // }
             };
 
             $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata; // jshint ignore:line
